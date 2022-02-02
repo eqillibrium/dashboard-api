@@ -1,0 +1,16 @@
+{
+  "name": "dashboard-api",
+  "version": "1.0.0",
+  "description": "dashboard API based on nodejs",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "test"
+  },
+  "author": "Naerdel",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
