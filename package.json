@@ -2,15 +2,20 @@
   "name": "dashboard-api",
   "version": "1.0.0",
   "description": "dashboard API based on nodejs",
-  "main": "index.js",
+  "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./dist/main.js",
+    "build": "tsc",
     "test": "test"
   },
   "author": "Naerdel",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "tslog": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
   }
 }
