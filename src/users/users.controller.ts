@@ -1,26 +1,32 @@
 import { NextFunction, Request, Response } from 'express'
 import { IControllerRoute } from '../common/route.interface'
-import { LoggerService } from '../logger/logger.service'
 import { BaseController } from '../common/base.controller.js'
+import { HttpError } from '../errors/http-error.class.js'
+import { inject, injectable } from 'inversify'
+import { TYPES } from '../types.js'
+import { ILogger } from '../logger/logger.interface.js'
+import 'reflect-metadata'
+import { IUsersController } from './users.controller.interface'
 
-export class UsersController extends BaseController {
-    constructor(logger: LoggerService) {
-        super(logger);
-        this.bindRoutes([
-            { path: '/register', method: 'post', func: this.register },
-            { path: '/login', method: 'post', func: this.login }
-        ])
-    }
+@injectable()
+export class UsersController extends BaseController implements IUsersController {
+	constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
+		super(loggerService)
+		this.bindRoutes([
+			{ path: '/register', method: 'post', func: this.register },
+			{ path: '/login', method: 'post', func: this.login },
+		])
+	}
 
-    protected bindRoutes(routes: IControllerRoute[]) {
-        super.bindRoutes(routes);
-    }
+	protected bindRoutes(routes: IControllerRoute[]): void {
+		super.bindRoutes(routes)
+	}
 
-    register(req: Request, res: Response, next: NextFunction) {
-        this.ok(res, 'register')
-    }
+	register(req: Request, res: Response, next: NextFunction): void {
+		next(new HttpError(401, 'authorize error'))
+	}
 
-    login(req: Request, res: Response, next: NextFunction) {
-        this.ok(res, 'login')
-    }
+	login(req: Request, res: Response, next: NextFunction): void {
+		this.ok(res, 'login')
+	}
 }
