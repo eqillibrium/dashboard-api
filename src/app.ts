@@ -1,11 +1,14 @@
 import express, { Express } from 'express'
 import { Server } from 'http'
 import { inject, injectable } from 'inversify'
-import { TYPES } from './types.js'
-import { UsersController } from './users/users.controller.js'
-import { ExceptionFilter } from './errors/exception.filter.js'
-import { ILogger } from './logger/logger.interface.js'
+import { json } from 'body-parser'
+import { TYPES } from './types'
+import { ILogger } from './logger/logger.interface'
+import { IUsersController } from './users/users.controller.interface'
+import { IExceptionFilter } from './errors/exception.filter.interface'
+import { IConfigService } from './config/config.service.interface'
 import 'reflect-metadata'
+import { UsersController } from './users/users.controller'
 
 @injectable()
 class App {
@@ -15,10 +18,15 @@ class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UsersController,
-		@inject(TYPES.ExceptionFilter) private readonly exceptionFilter: ExceptionFilter,
+		@inject(TYPES.ExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
+		@inject(TYPES.ConfigService) private readonly ConfigService: IConfigService,
 	) {
 		this.app = express()
 		this.port = 8000
+	}
+
+	useMiddleware(): void {
+		this.app.use(json())
 	}
 
 	useRoutes(): void {
@@ -30,6 +38,7 @@ class App {
 	}
 
 	public async init(): Promise<void> {
+		this.useMiddleware()
 		this.useRoutes()
 		this.useExceptionFilters()
 		this.server = this.app.listen(this.port)

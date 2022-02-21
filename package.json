@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "dashboard API based on nodejs",
   "main": "src/app.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
+    "dev": "nodemon",
+    "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
     "start": "node ./dist/main.js",
     "build": "tsc",
     "lint": "eslint ./src/**",
@@ -14,13 +16,20 @@
   "author": "Naerdel",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "inversify": "^6.0.1",
     "reflect-metadata": "^0.1.13",
     "tslog": "^3.3.1"
   },
   "devDependencies": {
+    "@trongnd/ts-nodemon": "^1.0.3",
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
@@ -29,7 +38,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
+    "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   }
 }

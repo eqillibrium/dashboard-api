@@ -1,6 +1,6 @@
 import { Response, Router } from 'express'
-import { IControllerRoute } from './route.interface.js'
-import { ILogger } from '../logger/logger.interface.js'
+import { IControllerRoute } from './route.interface'
+import { ILogger } from '../logger/logger.interface'
 import { injectable } from 'inversify'
 import 'reflect-metadata'
 
@@ -32,8 +32,10 @@ export abstract class BaseController {
 	protected bindRoutes(routes: IControllerRoute[]): void {
 		routes.forEach((route) => {
 			this.logger.log(`[${route.method}] ${route.path}`)
+			const middleWare = route.middlewares?.map((m) => m.execute.bind(m))
 			const handler = route.func.bind(this)
-			this.router[route.method](route.path, handler)
+			const pipeline = middleWare ? [...middleWare, handler] : handler
+			this.router[route.method](route.path, pipeline)
 		})
 	}
 }

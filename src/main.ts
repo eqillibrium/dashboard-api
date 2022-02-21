@@ -1,11 +1,16 @@
 import { Container, ContainerModule, interfaces } from 'inversify'
-import { TYPES } from './types.js'
-import { App } from './app.js'
-import { ILogger } from './logger/logger.interface.js'
-import { LoggerService } from './logger/logger.service.js'
-import { UsersController } from './users/users.controller.js'
-import { ExceptionFilter } from './errors/exception.filter.js'
-import { IExceptionFilter } from './errors/exception.filter.interface.js'
+import { TYPES } from './types'
+import { App } from './app'
+import { ILogger } from './logger/logger.interface'
+import { LoggerService } from './logger/logger.service'
+import { UsersController } from './users/users.controller'
+import { ExceptionFilter } from './errors/exception.filter'
+import { IExceptionFilter } from './errors/exception.filter.interface'
+import { IUsersController } from './users/users.controller.interface'
+import { IUserService } from './users/user.service.inteface'
+import { UserService } from './users/user.service'
+import { IConfigService } from './config/config.service.interface'
+import { ConfigService } from './config/config.service'
 
 export interface IBootstrap {
 	appContainer: Container
@@ -13,9 +18,11 @@ export interface IBootstrap {
 }
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
-	bind<ILogger>(TYPES.ILogger).to(LoggerService)
+	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope()
 	bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter)
-	bind<UsersController>(TYPES.UserController).to(UsersController)
+	bind<IUsersController>(TYPES.UserController).to(UsersController)
+	bind<IUserService>(TYPES.UserService).to(UserService)
+	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
 	bind<App>(TYPES.Application).to(App)
 })
 
