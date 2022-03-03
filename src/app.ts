@@ -9,6 +9,7 @@ import { IExceptionFilter } from './errors/exception.filter.interface'
 import { IConfigService } from './config/config.service.interface'
 import 'reflect-metadata'
 import { UsersController } from './users/users.controller'
+import { PrismaService } from './database/prisma.service'
 
 @injectable()
 class App {
@@ -20,6 +21,7 @@ class App {
 		@inject(TYPES.UserController) private userController: UsersController,
 		@inject(TYPES.ExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
 		@inject(TYPES.ConfigService) private readonly ConfigService: IConfigService,
+		@inject(TYPES.PrismaService) private readonly prismaService: PrismaService,
 	) {
 		this.app = express()
 		this.port = 8000
@@ -41,6 +43,7 @@ class App {
 		this.useMiddleware()
 		this.useRoutes()
 		this.useExceptionFilters()
+		await this.prismaService.connect()
 		this.server = this.app.listen(this.port)
 		this.logger.log(`Started on ${this.port}`)
 	}

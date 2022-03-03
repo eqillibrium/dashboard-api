@@ -40,10 +40,16 @@ export class UsersController extends BaseController implements IUsersController 
 		next: NextFunction,
 	): Promise<void> {
 		const result = await this.userService.createUser(body)
+		if (result === null) {
+			this.send(res, 401, 'Пользователь уже существует')
+			return
+		}
 		this.ok(res, result)
+		return
 	}
 
 	login(req: Request, res: Response, next: NextFunction): void {
 		this.ok(res, 'login1')
+		return
 	}
 }
