@@ -14,6 +14,7 @@ import { UserLoginDto } from './dto/user-login.dto'
 import { sign } from 'jsonwebtoken'
 import { IConfigService } from '../config/config.service.interface'
 import { IUserService } from './user.service.inteface'
+import { AuthGuard } from '../common/auth.guard'
 
 @injectable()
 export class UsersController extends BaseController implements IUsersController {
@@ -40,7 +41,7 @@ export class UsersController extends BaseController implements IUsersController 
 				path: '/info',
 				method: 'get',
 				func: this.info,
-				middlewares: [],
+				middlewares: [new AuthGuard()],
 			},
 		])
 	}
