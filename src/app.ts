@@ -10,6 +10,7 @@ import { IConfigService } from './config/config.service.interface'
 import 'reflect-metadata'
 import { UsersController } from './users/users.controller'
 import { PrismaService } from './database/prisma.service'
+import { AuthMiddleware } from './common/auth.middleware'
 
 @injectable()
 class App {
@@ -29,6 +30,8 @@ class App {
 
 	useMiddleware(): void {
 		this.app.use(json())
+		const authMiddleware = new AuthMiddleware(this.ConfigService.get('SECRET'))
+		this.app.use(authMiddleware.execute.bind(authMiddleware))
 	}
 
 	useRoutes(): void {

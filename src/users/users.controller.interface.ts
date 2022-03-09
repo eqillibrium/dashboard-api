@@ -5,4 +5,5 @@ import { UserRegisterDto } from './dto/user-register.dto'
 export interface IUsersController {
 	register: (req: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction) => void
 	login: (req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction) => void
+	info: (req: Request, res: Response, next: NextFunction) => void
 }
