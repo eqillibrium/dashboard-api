@@ -50,6 +50,10 @@ class App {
 		this.server = this.app.listen(this.port)
 		this.logger.log(`Started on ${this.port}`)
 	}
+
+	public close(): void {
+		this.server.close()
+	}
 }
 
 export { App }
