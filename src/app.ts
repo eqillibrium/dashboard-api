@@ -11,6 +11,7 @@ import 'reflect-metadata'
 import { UsersController } from './users/users.controller'
 import { PrismaService } from './database/prisma.service'
 import { AuthMiddleware } from './common/auth.middleware'
+import { PostsController } from './posts/posts.controller'
 
 @injectable()
 class App {
@@ -23,6 +24,7 @@ class App {
 		@inject(TYPES.ExceptionFilter) private readonly exceptionFilter: IExceptionFilter,
 		@inject(TYPES.ConfigService) private readonly ConfigService: IConfigService,
 		@inject(TYPES.PrismaService) private readonly prismaService: PrismaService,
+		@inject(TYPES.PostsController) private readonly postController: PostsController,
 	) {
 		this.app = express()
 		this.port = 8000
@@ -36,6 +38,7 @@ class App {
 
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router)
+		this.app.use('/posts', this.postController.router)
 	}
 
 	useExceptionFilters(): void {

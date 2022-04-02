@@ -7,5 +7,8 @@ export const TYPES = {
 	UserService: Symbol.for('UserService'),
 	ConfigService: Symbol.for('ConfigService'),
 	PrismaService: Symbol.for('PrismaService'),
-	UserRepository: Symbol.for('UserRepository')
+	UserRepository: Symbol.for('UserRepository'),
+	PostsController: Symbol.for('PostsController'),
+	PostRepository: Symbol.for('PostRepository'),
+	PostService: Symbol.for('PostService'),
 }

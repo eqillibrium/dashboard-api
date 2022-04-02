@@ -13,7 +13,13 @@ import { IConfigService } from './config/config.service.interface'
 import { ConfigService } from './config/config.service'
 import { PrismaService } from './database/prisma.service'
 import { IUserRepository } from './users/user.repository.interface'
-import { UsersRepositiry } from './users/users.repositiry'
+import { UsersRepository } from './users/usersRepository'
+import { IPostsController } from './posts/posts.controller.interface'
+import { PostsController } from './posts/posts.controller'
+import { IPostRepository } from './posts/post.repository.interface'
+import { PostRepository } from './posts/post.repository'
+import { IPostService } from './posts/post.service.interface'
+import { PostService } from './posts/post.service'
 
 export interface IBootstrap {
 	appContainer: Container
@@ -27,11 +33,14 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserService>(TYPES.UserService).to(UserService)
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope()
-	bind<IUserRepository>(TYPES.UserRepository).to(UsersRepositiry).inSingletonScope()
+	bind<IUserRepository>(TYPES.UserRepository).to(UsersRepository).inSingletonScope()
+	bind<IPostsController>(TYPES.PostsController).to(PostsController)
+	bind<IPostRepository>(TYPES.PostRepository).to(PostRepository)
+	bind<IPostService>(TYPES.PostService).to(PostService)
 	bind<App>(TYPES.Application).to(App)
 })
 
-async function bootstrap(): Promise<IBootstrap>{
+async function bootstrap(): Promise<IBootstrap> {
 	const appContainer = new Container()
 	appContainer.load(appBindings)
 	const app = appContainer.get<App>(TYPES.Application)

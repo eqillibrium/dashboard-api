@@ -16,3 +16,9 @@ model UserModel {
     password String
     name String
 }
+
+model PostModel {
+    id Int @id @default(autoincrement())
+    title String
+    description String
+}

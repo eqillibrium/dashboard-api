@@ -6,7 +6,7 @@ import { PrismaService } from '../database/prisma.service'
 import { TYPES } from '../types'
 
 @injectable()
-export class UsersRepositiry implements IUserRepository {
+export class UsersRepository implements IUserRepository {
 	constructor(@inject(TYPES.PrismaService) private prismaService: PrismaService) {}
 	async create({ email, password, name }: UserEntity): Promise<UserModel> {
 		return this.prismaService.client.userModel.create({
