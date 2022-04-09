@@ -12,6 +12,7 @@ import { UsersController } from './users/users.controller'
 import { PrismaService } from './database/prisma.service'
 import { AuthMiddleware } from './common/auth.middleware'
 import { PostsController } from './posts/posts.controller'
+import cors from 'cors'
 
 @injectable()
 class App {
@@ -34,6 +35,7 @@ class App {
 		this.app.use(json())
 		const authMiddleware = new AuthMiddleware(this.ConfigService.get('SECRET'))
 		this.app.use(authMiddleware.execute.bind(authMiddleware))
+		this.app.use(cors({ origin: 'http://localhost:63342' }))
 	}
 
 	useRoutes(): void {

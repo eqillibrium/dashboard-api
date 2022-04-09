@@ -21,4 +21,7 @@ export class PostService implements IPostService {
 		}
 		return this.postRepository.create(newPost)
 	}
+	async findPost(title: string): Promise<PostModel | null> {
+		return this.postRepository.find(title)
+	}
 }
